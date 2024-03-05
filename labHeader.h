@@ -16,7 +16,8 @@ void lab7();
 //==акнй бяонлнцюрекэмшу==
 double myPow(double, short);
 float recurs(int, int, short, float, float);
-short findVowel(int);
+short findVowel(char);
+char *inputSting(int);
 //==акнй бяонлнцюрекэмшу==
 
 
@@ -24,6 +25,11 @@ short findVowel(int);
 void lab2WithRecurs();
 //==акнй дно. гюдюмхи он кюанпюрнпмшл==
 
+
+//==акнй я кхаюлх==
+void lab3WithLibs();
+void poligon();
+//==акнй я кхаюлх==
 
 
 #endif /*LABHEADER_H*/

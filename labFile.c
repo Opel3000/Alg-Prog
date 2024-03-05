@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 //Выполнил: Сереенко Александр Романович, группа 1338, номер в списке 11
 
@@ -32,14 +34,43 @@ float recurs(int bot, int top, short sig, float summa, float e){
 }
 
 
-//
-short findVowel(int letter){
-    char vowel[] = "aeiouyAEIOUY"; //создаем массив переченя гласных букв для дальнейшей сверки
+//функиця для проверки буквы на гласную
+//вход: (int letter - буква в ASCII)
+//выход: (0 - согласная, 1 - главная)
+short findVowel(char letter){
+    char vowel[12] = "aeiouyAEIOUY"; //создаем массив переченя гласных букв для дальнейшей сверки
     for (short i = 0; i < (sizeof(vowel) / sizeof(vowel[0])); i++) //проверка на гласные
     {
         if (letter == vowel[i]) return 1;
     }
     return 0;
+}
+
+
+//функция для чтения stdin до определенного значения или EOF
+//вход: (
+//выход: (
+char *inputSting(int longArr){
+
+    char letter;
+    char *stringMass = malloc(longArr * sizeof(char));
+    int countLongStr = 0;
+    while ((letter = getchar()) != EOF){       //читаем посимвольно stdin, проверяя символ на конец файла
+
+        if (countLongStr == longArr) {
+            stringMass[longArr-1]='\0';
+            //printf("2");
+            //puts(stringMass);
+            //printf(" %c==", letter); ///АНОМАЛИЯ
+            return stringMass; //защита от переполнения
+        }
+        else stringMass[countLongStr] = letter;
+        countLongStr++;
+    }
+    stringMass[countLongStr]='\0';
+    //printf("1");
+    //puts(stringMass);
+    return stringMass;
 }
 
 
@@ -88,7 +119,7 @@ void lab2(){
 //ТЗ: В потоке символов сосчитать число слов, не содержащих гласных букв.
 void lab3(){
 
-    int str;
+    char str;
     int countWord = 0; //счеттчик подходящих слов
     unsigned short flagNewCorrectWord = 1; //флаг отвечающий за разделители
     unsigned short flagVowel = 1;      //флаг отвечающий за то, что слово подходит по условию
@@ -117,7 +148,53 @@ void lab3(){
 
 
 void lab4(){
-    //здесь будет 4
+
+    short countVowel = 0;
+    short countConsonant = 0;
+    short flagVowel = 0;
+    short startWord = 0;
+    int newPos, longStr;
+
+    scanf("%d", &longStr);
+
+    char stringArr[longStr];
+    strcpy(stringArr, inputSting(longStr));
+
+    for (int posInStr = 0; posInStr < longStr; posInStr++){
+
+        if (stringArr[posInStr] == ' ' || stringArr[posInStr] == '.'|| stringArr[posInStr] == ',' || stringArr[posInStr] == '\n' || stringArr[posInStr] == '\0'){
+            /*printf("%d \t", posInStr);
+            printf("%d \t", startWord);
+            printf("%d \t", countConsonant);
+            printf("%d \t", countVowel);
+            printf("%c \t", stringArr[startWord]);
+            printf("\n");*/
+
+            if ((countVowel > countConsonant) && (countVowel != 0) && (countConsonant != 0))
+            {
+                newPos = 0;
+                for (short i = 0; i < longStr; i++)
+                {
+                    if(i < startWord || i > posInStr){
+                    stringArr[newPos++]=stringArr[i];
+                    }
+                }
+            }
+            startWord = posInStr;
+            countVowel = 0;
+            countConsonant = 0;
+        }
+
+        else {
+            flagVowel = findVowel(stringArr[posInStr]);
+            if (flagVowel == 1) countVowel++;
+            else countConsonant++;
+
+        }
+    }
+
+    printf("\n");
+    puts(stringArr);
 }
 
 
@@ -188,6 +265,54 @@ void lab2WithRecurs(){
 }
 
 
+//ТЗ: аналогично lab3
+//Используется string.h и stdlib.h
+void lab3WithLibs(){
+    int countWord = 0; //счеттчик подходящих слов
+    unsigned short flagNewCorrectWord = 1; //флаг отвечающий за разделители
+    unsigned short flagVowel = 1;      //флаг отвечающий за то, что слово подходит по условию
+
+    int longStr;
+    scanf("%d", &longStr);
+
+    char str[longStr];
+    strcpy(str, inputSting(longStr));
+
+
+    for (int i = 0; str[i] != '\0'; i++){
+        if (str[i] == ' ' || str[i] == '.'|| str[i] == ',' || str[i] == '\n') // "\n" разделитель, который появляется между вводами через enter
+        {
+            if (flagVowel == 0) countWord++;  //слово подходит
+
+            flagNewCorrectWord = 1;
+            flagVowel = 1;
+        }
+        else { //встретилась буква
+            if (flagNewCorrectWord == 0) continue; //если слово уже не подходит пропускаем всю остальную часть
+
+            flagVowel = findVowel(str[i]); //проверка на гласный
+
+            if (flagVowel == 1) flagNewCorrectWord = 0;//если встретилась гласная, сообщаем, что текущее слово не подходит
+        }
+    }
+    printf("%d", countWord);
+}
+//полигон для испытаний
+void poligon(){
+
+    int longStr;
+    scanf("%d", &longStr);
+    char stringArr[longStr];
+    strcpy(stringArr, inputSting(longStr));
+    //printf("%s", stringArr); //АНОМАЛИЯ
+
+    for (short i = 0; stringArr[i] != '\0'; i++){
+        printf("%c", stringArr[i]);
+    }
+
+
+}
+
 /*Test lab
 Лаб1:
 Тестовый ввод: (3)
@@ -202,7 +327,7 @@ void lab2WithRecurs(){
 Тестовый вывод: (3)
 
 Лаб4:
-Тестовый ввод: ()
+Тестовый ввод: (,eehhh hheee IoyRFDuHh, .tgd Uye TTggIoEa.)
 Тестовый вывод: ()
 
 Лаб5:

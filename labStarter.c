@@ -20,14 +20,15 @@ int main(){
             break;
         case 3:
             if (SorH == 1) lab3();
-            else printf("This lab not ready \n"); //lab3();
+            else if (SorH == 2) printf("This lab not ready \n"); //lab3();
+            else lab3WithLibs();
             break;
         case 4:
             if (SorH == 1) printf("This lab not ready \n"); //lab4();
             else printf("This lab not ready \n"); //lab4();
             break;
         case 5:
-            if (SorH == 1) printf("This lab not ready \n"); //lab5();
+            if (SorH == 1) lab5();
             else printf("This lab not ready \n"); //lab5();
             break;
         case 6:
@@ -37,6 +38,9 @@ int main(){
         case 7:
             if (SorH == 1) printf("This lab not ready \n"); //lab7();
             else printf("This lab not ready \n"); //lab7();
+            break;
+        case 404:
+            poligon();
             break;
         default:
             printf("You select not correct number lab, try again, but use 1-7 for number lab and 1-2 for difficulty");
