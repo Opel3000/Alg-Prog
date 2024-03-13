@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
 //Выполнил: Сереенко Александр Романович, группа 1338, номер в списке 11
 
@@ -48,29 +47,28 @@ short findVowel(char letter){
 
 
 //функция для чтения stdin до определенного значения или EOF
-//вход: (
-//выход: (
-char *inputSting(int longArr){
+//вход: (size - размер массива)
+//выход: (массив введенных
+char *inputSting(size_t size){
 
     char letter;
-    char *stringMass = malloc(longArr * sizeof(char));
+    char *arrayStr = (char*) calloc(size, sizeof(char));//char *stringMass = malloc(size * sizeof(char));
     int countLongStr = 0;
     while ((letter = getchar()) != EOF){       //читаем посимвольно stdin, проверяя символ на конец файла
 
-        if (countLongStr == longArr) {
-            stringMass[longArr-1]='\0';
+        if (countLongStr == size) {
+            arrayStr[size-1]='\0';
             //printf("2");
             //puts(stringMass);
             //printf(" %c==", letter); ///АНОМАЛИЯ
-            return stringMass; //защита от переполнения
+            return arrayStr; //защита от переполнения
         }
-        else stringMass[countLongStr] = letter;
+        else arrayStr[countLongStr] = letter;
         countLongStr++;
     }
-    stringMass[countLongStr]='\0';
-    //printf("1");
+    arrayStr[countLongStr]='\0';
     //puts(stringMass);
-    return stringMass;
+    return arrayStr;
 }
 
 
@@ -153,34 +151,28 @@ void lab4(){
     short countConsonant = 0;
     short flagVowel = 0;
     short startWord = 0;
-    int newPos, longStr;
+    int newPos;
 
-    scanf("%d", &longStr);
+    size_t longStr;
+    scanf("%zu", &longStr);
+    char *stringArr = inputSting(longStr);
 
-    char stringArr[longStr];
-    strcpy(stringArr, inputSting(longStr));
 
     for (int posInStr = 0; posInStr < longStr; posInStr++){
 
         if (stringArr[posInStr] == ' ' || stringArr[posInStr] == '.'|| stringArr[posInStr] == ',' || stringArr[posInStr] == '\n' || stringArr[posInStr] == '\0'){
-            /*printf("%d \t", posInStr);
-            printf("%d \t", startWord);
-            printf("%d \t", countConsonant);
-            printf("%d \t", countVowel);
-            printf("%c \t", stringArr[startWord]);
-            printf("\n");*/
 
-            if ((countVowel > countConsonant) && (countVowel != 0) && (countConsonant != 0))
+            if (countVowel > countConsonant) //&& (countVowel != 0) && (countConsonant != 0))
             {
                 newPos = 0;
                 for (short i = 0; i < longStr; i++)
                 {
                     if(i < startWord || i > posInStr){
-                    stringArr[newPos++]=stringArr[i];
+                        stringArr[newPos++]=stringArr[i];
                     }
                 }
             }
-            startWord = posInStr;
+            startWord = ++posInStr;
             countVowel = 0;
             countConsonant = 0;
         }
@@ -240,13 +232,13 @@ void lab5(){
 
 
 void lab6(){
-    //здесь будет 4
+    //здесь будет 6
 }
 
 
 
 void lab7(){
-    //здесь будет 4
+    //здесь будет 7
 }
 
 
@@ -275,8 +267,10 @@ void lab3WithLibs(){
     int longStr;
     scanf("%d", &longStr);
 
-    char str[longStr];
+    char *str = NULL;
     strcpy(str, inputSting(longStr));
+    //str = inputSting(longStr);
+    //puts(*str);
 
 
     for (int i = 0; str[i] != '\0'; i++){
@@ -297,19 +291,24 @@ void lab3WithLibs(){
     }
     printf("%d", countWord);
 }
+
+
 //полигон для испытаний
 void poligon(){
 
-    int longStr;
-    scanf("%d", &longStr);
-    char stringArr[longStr];
-    strcpy(stringArr, inputSting(longStr));
-    //printf("%s", stringArr); //АНОМАЛИЯ
+    size_t longStr;
+    scanf("%zu", &longStr);
+    char *stringArr = inputSting(longStr);
+    //strcpy(stringArr, inputSting(longStr));
+    //printf("%s", stringArr);
+    //printf("%i\n", inputSting(longStr));
+    //stringArr = *inputSting(longStr);
+
+    //printf("%i\n", linkStr);
 
     for (short i = 0; stringArr[i] != '\0'; i++){
-        printf("%c", stringArr[i]);
+        printf("%c.", stringArr[i]);
     }
-
 
 }
 
@@ -331,14 +330,14 @@ void poligon(){
 Тестовый вывод: ()
 
 Лаб5:
-Тестовый ввод: (3)
-Тестовый вывод: (25.0)
+Тестовый ввод: ()
+Тестовый вывод: ()
 
 Лаб6:
-Тестовый ввод: (3)
-Тестовый вывод: (25.0)
+Тестовый ввод: ()
+Тестовый вывод: ()
 
 Лаб7:
-Тестовый ввод: (3)
-Тестовый вывод: (25.0)
+Тестовый ввод: ()
+Тестовый вывод: ()
 */

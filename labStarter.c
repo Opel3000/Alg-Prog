@@ -24,7 +24,7 @@ int main(){
             else lab3WithLibs();
             break;
         case 4:
-            if (SorH == 1) printf("This lab not ready \n"); //lab4();
+            if (SorH == 1) lab4();
             else printf("This lab not ready \n"); //lab4();
             break;
         case 5:

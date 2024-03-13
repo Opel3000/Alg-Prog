@@ -17,7 +17,7 @@ void lab7();
 double myPow(double, short);
 float recurs(int, int, short, float, float);
 short findVowel(char);
-char *inputSting(int);
+int inputSting(int);
 //==акнй бяонлнцюрекэмшу==
 
 
