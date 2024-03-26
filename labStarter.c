@@ -20,8 +20,7 @@ int main(){
             break;
         case 3:
             if (SorH == 1) lab3();
-            else if (SorH == 2) printf("This lab not ready \n"); //lab3();
-            else lab3WithLibs();
+            else lab3(); //т.к. практика была сделана заранее
             break;
         case 4:
             if (SorH == 1) lab4();
@@ -32,11 +31,11 @@ int main(){
             else printf("This lab not ready \n"); //lab5();
             break;
         case 6:
-            if (SorH == 1) printf("This lab not ready \n"); //lab6();
+            if (SorH == 1) lab6();
             else printf("This lab not ready \n"); //lab6();
             break;
         case 7:
-            if (SorH == 1) printf("This lab not ready \n"); //lab7();
+            if (SorH == 1) lab7();
             else printf("This lab not ready \n"); //lab7();
             break;
         case 404:

@@ -48,18 +48,16 @@ short findVowel(char letter){
 
 //функция для чтения stdin до определенного значения или EOF
 //вход: (size - размер массива)
-//выход: (массив введенных
+//выход: (введенная строка)
 char *inputSting(size_t size){
 
     char letter;
-    char *arrayStr = (char*) calloc(size, sizeof(char));//char *stringMass = malloc(size * sizeof(char));
+    char *arrayStr = (char*) calloc(size, sizeof(char));
     int countLongStr = 0;
     while ((letter = getchar()) != EOF){       //читаем посимвольно stdin, проверяя символ на конец файла
 
         if (countLongStr == size) {
             arrayStr[size-1]='\0';
-            //printf("2");
-            //puts(stringMass);
             //printf(" %c==", letter); ///АНОМАЛИЯ
             return arrayStr; //защита от переполнения
         }
@@ -67,9 +65,84 @@ char *inputSting(size_t size){
         countLongStr++;
     }
     arrayStr[countLongStr]='\0';
-    //puts(stringMass);
     return arrayStr;
 }
+
+
+//функция проверяющая разделитель ли
+//вход: (letter - текущий символ)
+//выход: (если разделитель - 1, иначе 0)
+int checkWalls(char letter){
+    char wall[5] = "., \n\0"; //создаем массив переченя разделителей для дальнейшей сверки
+    for (short i = 0; i < (sizeof(wall) / sizeof(wall[0])); i++)
+    {
+        if (letter == wall[i]) return 1;
+    }
+    return 0;
+}
+
+
+//функция для поиска слов неподходящих под условие(к удалению)
+//вход: (size - размер массива, strMass - сама строка)
+//выход: (массив, где четный элемент - ячейка начала слова, а каждый нечетный - его конец)
+int *detectWords(size_t size, char *strMas){
+    short countVowel = 0;
+    short countConsonant = 0;
+    short countDC = 0;
+    int flagVowel = 0;
+
+    int *deleteCoords = (int*) calloc(size, sizeof(int));
+
+    for(short i = 0; strMas[i] != '\0'; i++){
+        if (checkWalls(strMas[i])){
+                //printf("%c \n",strMass[i]);
+            if ((countVowel > countConsonant) && ((countVowel != 0) || (countConsonant != 0)))
+            {
+                deleteCoords[countDC] = i-(countVowel+countConsonant)-1;
+                deleteCoords[countDC+1] = i-1;
+                countDC+=2;
+                //printf("%i - %i \n", i-(countVowel+countConsonant)-1, i-1);
+            }
+
+            countVowel = 0;
+            countConsonant = 0;
+        }
+        else {
+            flagVowel = findVowel(strMas[i]);
+            if (flagVowel == 1) countVowel++;
+            else countConsonant++;
+
+        }
+    }
+    return deleteCoords;
+}
+
+
+//рекурсивная функция для удаления слов по позиции
+//вход: (size - размер массива, strMass - сама строка, startMas - массив координат для удаления, iter - итерация рекурсии, longDelWords - количство удалённых символов)
+//выход: (очищенный от нечести массив)
+char *deleteWords(size_t size, char *strMas, int *startMas, int iter, int longDelWords){
+    longDelWords += startMas[iter+1]-startMas[iter]+1;
+    for(int i = startMas[iter]; strMas[i] != '\0'; i++){ //i <= startMas[iter+1]
+        strMas[i]=strMas[i+(startMas[iter+1]-startMas[iter])+1];
+    }
+    //puts(strMas);
+    iter+=2;
+    startMas[iter] -= longDelWords;
+    startMas[iter+1] -= longDelWords;
+    //printf("lw %i| smiN %i| \n", longDelWords, startMas[iter]);
+    if (startMas[iter] > 0)
+        return deleteWords(size, strMas, startMas, iter, longDelWords);
+    else
+        return strMas;
+}
+
+
+//проверка не выходит ли элемент за пределы массива
+/*int checkBarrier(int x, int y, int N, int K){
+    if ((x == K) or (y == N)) return 1;
+    else return 0;
+}*/
 
 
 //ТЗ: Вычислить P = x^4-3x^2+11x-8
@@ -147,46 +220,14 @@ void lab3(){
 
 void lab4(){
 
-    short countVowel = 0;
-    short countConsonant = 0;
-    short flagVowel = 0;
-    short startWord = 0;
-    int newPos;
-
     size_t longStr;
     scanf("%zu", &longStr);
+
     char *stringArr = inputSting(longStr);
+    int *CoodrsStartWords = detectWords(longStr, stringArr);
+    char *resultStr = deleteWords(longStr, stringArr, CoodrsStartWords, 0, 0);
 
-
-    for (int posInStr = 0; posInStr < longStr; posInStr++){
-
-        if (stringArr[posInStr] == ' ' || stringArr[posInStr] == '.'|| stringArr[posInStr] == ',' || stringArr[posInStr] == '\n' || stringArr[posInStr] == '\0'){
-
-            if (countVowel > countConsonant) //&& (countVowel != 0) && (countConsonant != 0))
-            {
-                newPos = 0;
-                for (short i = 0; i < longStr; i++)
-                {
-                    if(i < startWord || i > posInStr){
-                        stringArr[newPos++]=stringArr[i];
-                    }
-                }
-            }
-            startWord = ++posInStr;
-            countVowel = 0;
-            countConsonant = 0;
-        }
-
-        else {
-            flagVowel = findVowel(stringArr[posInStr]);
-            if (flagVowel == 1) countVowel++;
-            else countConsonant++;
-
-        }
-    }
-
-    printf("\n");
-    puts(stringArr);
+    puts(resultStr);
 }
 
 
@@ -196,7 +237,8 @@ void lab4(){
 void lab5(){
 
     int long_arr;
-    scanf("%i Enter long array ", &long_arr);
+    long_arr = 10;
+    //scanf("%i Enter long array ", &long_arr);
 
     short coutnOddNum = 0; //счетчик нечет
     short coutnEvenNum = 0; //счетчик чет
@@ -205,40 +247,63 @@ void lab5(){
     for (short i = 0; i < long_arr; i++) //заполнение массива + подсчет чет/нечет
     {
         scanf("%d", &arr[i]);
-        if (arr[i] % 2 == 0) coutnEvenNum++;
-        else coutnOddNum++;
+        if (arr[i] % 2 == 0)
+            coutnEvenNum++;
+        else
+            coutnOddNum++;
 
     }
 
     for (short i = 0; i < long_arr; i++) //обнуление элементов по условию в ТЗ
     {
-        if (coutnOddNum < coutnEvenNum)
-        {
+        if (coutnOddNum < coutnEvenNum){
             if (arr[i] % 2 == 1) arr[i] = 0; //нечет
         }
-        else
-        {
+        else{
             if(arr[i] % 2 == 0) arr[i] = 0; //чет
         }
     }
 
     for (short i = 0; i < long_arr; i++) //вывод массива
-    {
         printf("%d ", arr[i]);
-    }
-    printf("\n");
 }
 
 
 
 void lab6(){
-    //здесь будет 6
+    int N, K;
+    scanf("%i", &N);
+    scanf("%i", &K);
+    int arrMatrix[N][K];
+
+    for(int i = 0; i <= N; i++){
+        for(int j = 0; j <= K; j++){
+            printf("Line %i, Column %i ", i, j);
+            scanf("%i", &arrMatrix[i][j]);
+        }
+    }
+
+    for(int i = 0; i <= N; i++){
+        for(int j = 0; j <= K; j++){
+
+
+
+        }
+    }
 }
 
 
 
 void lab7(){
-    //здесь будет 7
+    int N, K;
+    printf("Number = ");
+    scanf("%i", &N);
+    printf("Shift count = ");
+    scanf("%i", &K);
+    for(int i = 0; i < K; i++){
+        N = N >> 1;
+    }
+    printf("%i", N);
 }
 
 
@@ -257,54 +322,12 @@ void lab2WithRecurs(){
 }
 
 
-//ТЗ: аналогично lab3
-//Используется string.h и stdlib.h
-void lab3WithLibs(){
-    int countWord = 0; //счеттчик подходящих слов
-    unsigned short flagNewCorrectWord = 1; //флаг отвечающий за разделители
-    unsigned short flagVowel = 1;      //флаг отвечающий за то, что слово подходит по условию
-
-    int longStr;
-    scanf("%d", &longStr);
-
-    char *str = NULL;
-    strcpy(str, inputSting(longStr));
-    //str = inputSting(longStr);
-    //puts(*str);
-
-
-    for (int i = 0; str[i] != '\0'; i++){
-        if (str[i] == ' ' || str[i] == '.'|| str[i] == ',' || str[i] == '\n') // "\n" разделитель, который появляется между вводами через enter
-        {
-            if (flagVowel == 0) countWord++;  //слово подходит
-
-            flagNewCorrectWord = 1;
-            flagVowel = 1;
-        }
-        else { //встретилась буква
-            if (flagNewCorrectWord == 0) continue; //если слово уже не подходит пропускаем всю остальную часть
-
-            flagVowel = findVowel(str[i]); //проверка на гласный
-
-            if (flagVowel == 1) flagNewCorrectWord = 0;//если встретилась гласная, сообщаем, что текущее слово не подходит
-        }
-    }
-    printf("%d", countWord);
-}
-
-
 //полигон для испытаний
 void poligon(){
 
     size_t longStr;
     scanf("%zu", &longStr);
     char *stringArr = inputSting(longStr);
-    //strcpy(stringArr, inputSting(longStr));
-    //printf("%s", stringArr);
-    //printf("%i\n", inputSting(longStr));
-    //stringArr = *inputSting(longStr);
-
-    //printf("%i\n", linkStr);
 
     for (short i = 0; stringArr[i] != '\0'; i++){
         printf("%c.", stringArr[i]);
@@ -327,11 +350,11 @@ void poligon(){
 
 Лаб4:
 Тестовый ввод: (,eehhh hheee IoyRFDuHh, .tgd Uye TTggIoEa.)
-Тестовый вывод: ()
+Тестовый вывод: (,eehhh IoyRFDuHh, .tgd TTggIoEa.)
 
 Лаб5:
-Тестовый ввод: ()
-Тестовый вывод: ()
+Тестовый ввод: (4 3 67 2 80)
+Тестовый вывод: (3 67 0 0)
 
 Лаб6:
 Тестовый ввод: ()

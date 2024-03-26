@@ -18,6 +18,9 @@ double myPow(double, short);
 float recurs(int, int, short, float, float);
 short findVowel(char);
 int inputSting(int);
+int checkWalls(char);
+int detectWords(size_t, char);
+int deleteWords(size_t, char, int, int, int);
 //==акнй бяонлнцюрекэмшу==
 
 
