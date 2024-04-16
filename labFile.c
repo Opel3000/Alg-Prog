@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define LONGARRLAB5 10
+
 //Выполнил: Сереенко Александр Романович, группа 1338, номер в списке 11
 
 
@@ -51,6 +53,7 @@ short findVowel(char letter){
 //выход: (введенная строка)
 char *inputSting(size_t size){
 
+    getchar();
     char letter;
     char *arrayStr = (char*) calloc(size, sizeof(char));
     int countLongStr = 0;
@@ -138,11 +141,29 @@ char *deleteWords(size_t size, char *strMas, int *startMas, int iter, int longDe
 }
 
 
-//проверка не выходит ли элемент за пределы массива
-/*int checkBarrier(int x, int y, int N, int K){
-    if ((x == K) or (y == N)) return 1;
-    else return 0;
-}*/
+//str to int arr without libs
+int *str2intArray(int size, char *strMas){
+    int intMas[size];
+    int countIntMas = 0;
+    int numInStr = 0;
+
+    for (int i = 0; i < size; i++){
+        if(countIntMas == 10) break;
+        if(checkWalls(strMas[i])){
+            intMas[countIntMas] = numInStr;
+            countIntMas++;
+            numInStr = 0;
+
+        }
+        else{
+            //printf("%i DA", strMas[i] - '0');
+            numInStr = 10*numInStr+(strMas[i] - '0');
+        }
+
+    }
+
+    return intMas;
+}
 
 
 //ТЗ: Вычислить P = x^4-3x^2+11x-8
@@ -322,17 +343,50 @@ void lab2WithRecurs(){
 }
 
 
-//полигон для испытаний
-void poligon(){
 
-    size_t longStr;
-    scanf("%zu", &longStr);
-    char *stringArr = inputSting(longStr);
+void lab5WithDop(){
 
-    for (short i = 0; stringArr[i] != '\0'; i++){
-        printf("%c.", stringArr[i]);
+    //scanf("%i Enter long array ", &long_arr);
+
+    int arrButBuffLong = 100;
+
+    short coutnOddNum = 0; //счетчик нечет
+    short coutnEvenNum = 0; //счетчик чет
+    int arr[LONGARRLAB5]; //сам массив
+
+    char *arrButBuff = inputSting(arrButBuffLong);
+    arr[10] = str2intArray(arrButBuffLong, arrButBuff);
+
+    for (int i = 0; i < LONGARRLAB5; i++) //вывод массива
+        printf("%i ", arr[i]);
+
+    for (int i = 0; i < LONGARRLAB5; i++) //заполнение массива + подсчет чет/нечет
+    {
+        if (arr[i] % 2 == 0)
+            coutnEvenNum++;
+        else
+            coutnOddNum++;
     }
 
+    for (int i = 0; i < LONGARRLAB5; i++) //обнуление элементов по условию в ТЗ
+    {
+        if (coutnOddNum < coutnEvenNum){
+            if (arr[i] % 2 == 1) arr[i] = 0; //нечет
+        }
+        else{
+            if(arr[i] % 2 == 0) arr[i] = 0; //чет
+        }
+    }
+
+    //for (short i = 0; i < LONGARRLAB5; i++) //вывод массива
+    //    printf("%i ", arr[i]);
+}
+
+
+
+//полигон для испытаний
+void poligon(){
+    float summa = 0;
 }
 
 /*Test lab

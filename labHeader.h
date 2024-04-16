@@ -21,11 +21,13 @@ int inputSting(int);
 int checkWalls(char);
 int detectWords(size_t, char);
 int deleteWords(size_t, char, int, int, int);
+int str2intArray(size_t, char);
 //==акнй бяонлнцюрекэмшу==
 
 
 //==акнй дно. гюдюмхи он кюанпюрнпмшл==
 void lab2WithRecurs();
+void lab5WithDop();
 //==акнй дно. гюдюмхи он кюанпюрнпмшл==
 
 

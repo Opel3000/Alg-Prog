@@ -24,11 +24,11 @@ int main(){
             break;
         case 4:
             if (SorH == 1) lab4();
-            else printf("This lab not ready \n"); //lab4();
+            else lab4(); //т.к. практика была сделана заранее
             break;
         case 5:
             if (SorH == 1) lab5();
-            else printf("This lab not ready \n"); //lab5();
+            else lab5WithDop();
             break;
         case 6:
             if (SorH == 1) lab6();
