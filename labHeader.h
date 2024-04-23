@@ -17,11 +17,12 @@ void lab7();
 double myPow(double, short);
 float recurs(int, int, short, float, float);
 short findVowel(char);
-int inputSting(int);
+int inputSting(size_t);
 int checkWalls(char);
 int detectWords(size_t, char);
 int deleteWords(size_t, char, int, int, int);
 int str2intArray(size_t, char);
+int matrixDiagonalKiller(float, int, int, int);
 //==акнй бяонлнцюрекэмшу==
 
 
@@ -31,10 +32,7 @@ void lab5WithDop();
 //==акнй дно. гюдюмхи он кюанпюрнпмшл==
 
 
-//==акнй я кхаюлх==
-void lab3WithLibs();
 void poligon();
-//==акнй я кхаюлх==
 
 
 #endif /*LABHEADER_H*/

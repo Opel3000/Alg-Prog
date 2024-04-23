@@ -142,8 +142,8 @@ char *deleteWords(size_t size, char *strMas, int *startMas, int iter, int longDe
 
 
 //str to int arr without libs
-int *str2intArray(int size, char *strMas){
-    int intMas[size];
+int *str2intArray(size_t size, char *strMas){
+    int *intMas = (int*) calloc(10, sizeof(int));
     int countIntMas = 0;
     int numInStr = 0;
 
@@ -164,6 +164,20 @@ int *str2intArray(int size, char *strMas){
 
     return intMas;
 }
+
+
+int matrixDiagonalKiller(float x, int N, int K, int MorN){
+    //printf("%f x", x);
+    int y = 0;
+    if(MorN)
+        y = (x/K)*(-N);
+    else
+        y = (((x/K)*(N))-N);
+
+    y*=-1;
+    return y;
+}
+
 
 
 //ТЗ: Вычислить P = x^4-3x^2+11x-8
@@ -290,26 +304,58 @@ void lab5(){
 }
 
 
-
+/*ТЗ: В двумерном целочисленном массиве размера N на K обнулить диагональ с
+максимальной суммой элементов. Следует рассмотреть все диагонали, а не
+только главные*/
 void lab6(){
     int N, K;
+    int mainD = 0;
+    int mainDNOT = 0;
     scanf("%i", &N);
     scanf("%i", &K);
     int arrMatrix[N][K];
 
-    for(int i = 0; i <= N; i++){
-        for(int j = 0; j <= K; j++){
+    for(int i = 0; i < N; i++){
+        for(int j = 0; j < K; j++){
             printf("Line %i, Column %i ", i, j);
             scanf("%i", &arrMatrix[i][j]);
         }
     }
 
-    for(int i = 0; i <= N; i++){
-        for(int j = 0; j <= K; j++){
 
 
+    for(int i = 0; i < K; i++){
+        mainD += arrMatrix[matrixDiagonalKiller((float)i+0.5, N, K, 1)][i];
+        mainDNOT += arrMatrix[matrixDiagonalKiller((float)i+0.5, N, K, 0)][i];
 
         }
+
+    //printf("%i / % i \n", mainDNOT, mainD);
+    if(mainDNOT > mainD){
+        for(int i = 0; i < K; i++){
+            arrMatrix[matrixDiagonalKiller((float)i+0.5, N, K, 0)][i] = 0;
+        }
+    }
+
+    else if (mainDNOT == mainD){
+        for(int i = 0; i < K; i++){
+            arrMatrix[matrixDiagonalKiller((float)i+0.5, N, K, 1)][i] = 0;
+            arrMatrix[matrixDiagonalKiller((float)i+0.5, N, K, 0)][i] = 0;
+        }
+    }
+
+    else{
+        for(int i = 0; i < K; i++){
+            arrMatrix[matrixDiagonalKiller((float)i+0.5, N, K, 1)][i] = 0;
+        }
+
+    }
+
+    for(int i = 0; i < N; i++){
+        for(int j = 0; j < K; j++){
+            printf(" %i /", arrMatrix[i][j]);
+        }
+        printf("\n");
     }
 }
 
@@ -348,17 +394,14 @@ void lab5WithDop(){
 
     //scanf("%i Enter long array ", &long_arr);
 
-    int arrButBuffLong = 100;
+    size_t arrButBuffLong = 100;
 
     short coutnOddNum = 0; //счетчик нечет
     short coutnEvenNum = 0; //счетчик чет
-    int arr[LONGARRLAB5]; //сам массив
+    //int arr[LONGARRLAB5]; //сам массив
 
     char *arrButBuff = inputSting(arrButBuffLong);
-    arr[10] = str2intArray(arrButBuffLong, arrButBuff);
-
-    for (int i = 0; i < LONGARRLAB5; i++) //вывод массива
-        printf("%i ", arr[i]);
+    int *arr = str2intArray(arrButBuffLong, arrButBuff);
 
     for (int i = 0; i < LONGARRLAB5; i++) //заполнение массива + подсчет чет/нечет
     {
@@ -378,43 +421,15 @@ void lab5WithDop(){
         }
     }
 
-    //for (short i = 0; i < LONGARRLAB5; i++) //вывод массива
-    //    printf("%i ", arr[i]);
+    for (short i = 0; i < LONGARRLAB5; i++) //вывод массива
+        printf("%i ", arr[i]);
 }
 
 
 
 //полигон для испытаний
 void poligon(){
-    float summa = 0;
+    float summa = 5.5;
+    printf("%i", matrixDiagonalKiller(summa, 3, 6, 1));
 }
 
-/*Test lab
-Лаб1:
-Тестовый ввод: (3)
-Тестовый вывод: (25.0)
-
-Лаб2:
-Тестовый ввод: (0.5)
-Тестовый вывод: (0.750)
-
-Лаб3:
-Тестовый ввод: (,tteR ,.. eiOy.g,htDb wFdG)
-Тестовый вывод: (3)
-
-Лаб4:
-Тестовый ввод: (,eehhh hheee IoyRFDuHh, .tgd Uye TTggIoEa.)
-Тестовый вывод: (,eehhh IoyRFDuHh, .tgd TTggIoEa.)
-
-Лаб5:
-Тестовый ввод: (4 3 67 2 80)
-Тестовый вывод: (3 67 0 0)
-
-Лаб6:
-Тестовый ввод: ()
-Тестовый вывод: ()
-
-Лаб7:
-Тестовый ввод: ()
-Тестовый вывод: ()
-*/
