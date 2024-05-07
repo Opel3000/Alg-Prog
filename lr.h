@@ -1,8 +1,8 @@
-#ifndef LABHEADER_H
-#define LABHEADER_H
+#ifndef LR_H
+#define LR_H
 
 
-//==¡ÀŒ  À¿¡Œ–¿“Œ–Õ€’==
+//==√Å√ã√é√ä √ã√Ä√Å√é√ê√Ä√í√é√ê√ç√õ√ï==
 void lab1();
 void lab2();
 void lab3();
@@ -10,10 +10,10 @@ void lab4();
 void lab5();
 void lab6();
 void lab7();
-//==¡ÀŒ  À¿¡Œ–¿“Œ–Õ€’==
+//==√Å√ã√é√ä √ã√Ä√Å√é√ê√Ä√í√é√ê√ç√õ√ï==
 
 
-//==¡ÀŒ  ¬—œŒÃŒ√¿“≈À‹Õ€’==
+//==√Å√ã√é√ä √Ç√ë√è√é√å√é√É√Ä√í√Ö√ã√ú√ç√õ√ï==
 double myPow(double, short);
 float recurs(int, int, short, float, float);
 short findVowel(char);
@@ -23,17 +23,17 @@ int detectWords(size_t, char);
 int deleteWords(size_t, char, int, int, int);
 int str2intArray(size_t, char);
 int matrixDiagonalKiller(float, int, int, int);
-//==¡ÀŒ  ¬—œŒÃŒ√¿“≈À‹Õ€’==
+//==√Å√ã√é√ä √Ç√ë√è√é√å√é√É√Ä√í√Ö√ã√ú√ç√õ√ï==
 
 
-//==¡ÀŒ  ƒŒœ. «¿ƒ¿Õ»… œŒ À¿¡Œ–¿“Œ–Õ€Ã==
+//==√Å√ã√é√ä √Ñ√é√è. √á√Ä√Ñ√Ä√ç√à√â √è√é √ã√Ä√Å√é√ê√Ä√í√é√ê√ç√õ√å==
 void lab2WithRecurs();
 void lab5WithDop();
 void piramidkaSort();
-//==¡ÀŒ  ƒŒœ. «¿ƒ¿Õ»… œŒ À¿¡Œ–¿“Œ–Õ€Ã==
+//==√Å√ã√é√ä √Ñ√é√è. √á√Ä√Ñ√Ä√ç√à√â √è√é √ã√Ä√Å√é√ê√Ä√í√é√ê√ç√õ√å==
 
 
 void poligon();
 
 
-#endif /*LABHEADER_H*/
+#endif /*LR_H*/
