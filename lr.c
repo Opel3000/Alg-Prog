@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "labHeader.h"
+#include "lr.h"
 
 int main(){
 
@@ -12,7 +12,7 @@ int main(){
     switch (numLab){
         case 1:
             if (SorH == 1) lab1();
-            else lab1(); //т.к. практика была сделана заранее
+            else lab1(); //ГІ.ГЄ. ГЇГ°Г ГЄГІГЁГЄГ  ГЎГ»Г«Г  Г±Г¤ГҐГ«Г Г­Г  Г§Г Г°Г Г­ГҐГҐ
             break;
         case 2:
             if (SorH == 1) lab2();
@@ -20,11 +20,11 @@ int main(){
             break;
         case 3:
             if (SorH == 1) lab3();
-            else lab3(); //т.к. практика была сделана заранее
+            else lab3(); //ГІ.ГЄ. ГЇГ°Г ГЄГІГЁГЄГ  ГЎГ»Г«Г  Г±Г¤ГҐГ«Г Г­Г  Г§Г Г°Г Г­ГҐГҐ
             break;
         case 4:
             if (SorH == 1) lab4();
-            else lab4(); //т.к. практика была сделана заранее
+            else lab4(); //ГІ.ГЄ. ГЇГ°Г ГЄГІГЁГЄГ  ГЎГ»Г«Г  Г±Г¤ГҐГ«Г Г­Г  Г§Г Г°Г Г­ГҐГҐ
             break;
         case 5:
             if (SorH == 1) lab5();
