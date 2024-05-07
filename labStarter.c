@@ -32,11 +32,11 @@ int main(){
             break;
         case 6:
             if (SorH == 1) lab6();
-            else printf("This lab not ready \n"); //lab6();
+            else piramidkaSort();
             break;
         case 7:
             if (SorH == 1) lab7();
-            else printf("This lab not ready \n"); //lab7();
+            else printf("This lab not live \n"); //lab7();
             break;
         case 404:
             poligon();
@@ -44,6 +44,7 @@ int main(){
         default:
             printf("You select not correct number lab, try again, but use 1-7 for number lab and 1-2 for difficulty");
     }
-
+    char d;
+    while(d = getchar() != '-'){}
     return 0;
 }

@@ -29,6 +29,7 @@ int matrixDiagonalKiller(float, int, int, int);
 //==акнй дно. гюдюмхи он кюанпюрнпмшл==
 void lab2WithRecurs();
 void lab5WithDop();
+void piramidkaSort();
 //==акнй дно. гюдюмхи он кюанпюрнпмшл==
 
 
